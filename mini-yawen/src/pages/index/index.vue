@@ -1,11 +1,19 @@
 <template>
-  <div class="container">
-    11
+  <div class="home-container">
+    <!-- 智能搜索框容器 -->
+    <div @click="onClickSearch" class="search-container">
+      <image src='/static/搜索.png' class="search-icon-container" />
+      <text>搜索相关微课</text>
+    </div>
+    <!-- 首页banner图 -->
+    <banner></banner>
   </div>
 </template>
 
 <script>
-import card from '@/components/card'
+import banner from '@/components/banner'
+import api from '../../api/index.js'
+import getAuthToken from '../../utils/token.js'
 
 export default {
   data () {
@@ -16,7 +24,7 @@ export default {
   },
 
   components: {
-    card
+    banner
   },
 
   methods: {
@@ -34,6 +42,14 @@ export default {
     }
   },
 
+  async onLoad () {
+    // 先检查token
+    await getAuthToken()
+    console.log(api)
+    // 获取分类类别
+    let resCategories = await api.getCategories()
+  },
+
   created () {
     // 调用应用实例的方法获取全局数据
     this.getUserInfo()
@@ -42,39 +58,13 @@ export default {
 </script>
 
 <style scoped>
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  .home-container {
 
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
+  }
+  .search-container {
 
-.userinfo-nickname {
-  color: #aaa;
-}
+  }
+  .search-icon-container {
 
-.usermotto {
-  margin-top: 150px;
-}
-
-.form-control {
-  display: block;
-  padding: 0 12px;
-  margin-bottom: 5px;
-  border: 1px solid #ccc;
-}
-
-.counter {
-  display: inline-block;
-  margin: 10px auto;
-  padding: 5px 10px;
-  color: blue;
-  border: 1px solid blue;
-}
+  }
 </style>
